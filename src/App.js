@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import AuthWrapper from './components/auth/AuthWrapper';
+import LoginForm from './components/auth/LoginForm';
+import SignUpForm from './components/auth/SignUpForm';
+import Header from './components/Layout/Header';
+import TaskList from './components/tasks/TaskList';
+import { AuthProvider } from './context/AuthContext';
+import { TaskProvider } from './context/TaskContext';
 
-function App() {
+const App = () => {
+  console.log("process :",process.env.REACT_APP_API_KAY)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AuthProvider>
+        <TaskProvider>
+          <div className="min-h-screen bg-gray-100">
+            <Header/>
+            <main className="container mx-auto px-4 py-8">
+              <Routes>
+                <Route 
+                  path="/login" 
+                  element={
+                    <AuthWrapper requireAuth={false}>
+                      <LoginForm />
+                    </AuthWrapper>
+                  } 
+                />
+                <Route 
+                  path="/signup" 
+                  element={
+                    <AuthWrapper requireAuth={false}>
+                      <SignUpForm />
+                    </AuthWrapper>
+                  } 
+                />
+                <Route 
+                  path="/" 
+                  element={
+                    <AuthWrapper requireAuth={true}>
+                      <TaskList />
+                    </AuthWrapper>
+                  } 
+                />
+              </Routes>
+            </main>
+          </div>
+        </TaskProvider>
+      </AuthProvider>
+    </Router>
   );
-}
+};
 
 export default App;
