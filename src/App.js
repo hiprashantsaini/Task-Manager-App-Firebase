@@ -8,7 +8,6 @@ import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';
 
 const App = () => {
-  console.log("process :",process.env.REACT_APP_API_KAY)
   return (
     <Router>
       <AuthProvider>
